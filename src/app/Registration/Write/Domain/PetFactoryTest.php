@@ -6,25 +6,25 @@ use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\Group;
 use App\Shared\Exceptions\BadOperationException;
-use App\Registration\Write\Domain\ValueObjects\CatBreed;
-use App\Registration\Write\Domain\ValueObjects\DogBreed;
+use App\Registration\Write\Domain\ValueObjects\PetTypes;
+use App\Registration\Write\Domain\ValueObjects\PetGenders;
 
 class PetFactoryTest extends TestCase
 {
     #[Test]
     #[Group("unit")]
-    public function fromPrimitivesThrowsExceptionWhenPetTypeInvalid(): void
+    public function itThrowsExceptionWhenPetTypeIsInvalid(): void
     {
         $factory = new PetFactory();
 
         $action = fn() => $factory->fromPrimitives(
+            petNameValue: "Kiwi",
+            petGenderValue: PetGenders::Female->value,
+            petDateOfBirthValue: "2020-02-16",
+            petEstimatedAgeValue: null,
             petTypeValue: "oppossum",
             petBreedValue: "samoyed",
-            breedMixValue: "",
-            nameValue: "Kiwi",
-            genderValue: "f",
-            dateOfBirthValue: "2020-02-16",
-            estimatedAgeValue: null
+            petBreedMixValue: ""
         );
 
         $this->assertThrows($action, BadOperationException::class);
@@ -32,17 +32,18 @@ class PetFactoryTest extends TestCase
 
     #[Test]
     #[Group("unit")]
-    public function fromPrimitivesThrowsExceptionWhenPetGenderInvalid(): void
+    public function itThrowsExceptionWhenPetGenderIsInvalid(): void
     {
         $factory = new PetFactory();
+
         $action = fn() => $factory->fromPrimitives(
-            petTypeValue: "dog",
+            petNameValue: "Kiwi",
+            petGenderValue: "a",
+            petDateOfBirthValue: "2020-02-16",
+            petEstimatedAgeValue: null,
+            petTypeValue: PetTypes::Dog->value,
             petBreedValue: "samoyed",
-            breedMixValue: "",
-            nameValue: "Kiwi",
-            genderValue: "b",
-            dateOfBirthValue: "2020-02-16",
-            estimatedAgeValue: null
+            petBreedMixValue: ""
         );
 
         $this->assertThrows($action, BadOperationException::class);
@@ -50,57 +51,20 @@ class PetFactoryTest extends TestCase
 
     #[Test]
     #[Group("unit")]
-    public function fromPrimitivesThrowsExceptionWhenMissingBirthData(): void
+    public function itThrowsExceptionWhenMissingBirthData(): void
     {
         $factory = new PetFactory();
+
         $action = fn() => $factory->fromPrimitives(
-            petTypeValue: "dog",
+            petNameValue: "Kiwi",
+            petGenderValue: PetGenders::Female->value,
+            petDateOfBirthValue: null,
+            petEstimatedAgeValue: null,
+            petTypeValue: PetTypes::Dog->value,
             petBreedValue: "samoyed",
-            breedMixValue: "",
-            nameValue: "Kiwi",
-            genderValue: "f",
-            dateOfBirthValue: null,
-            estimatedAgeValue: null
+            petBreedMixValue: ""
         );
 
         $this->assertThrows($action, BadOperationException::class);
-    }
-
-    #[Test]
-    #[Group("unit")]
-    public function fromPrimitivesInjectsCatBreedWhenTypeIsCat(): void
-    {
-        $factory = new PetFactory();
-
-        $pet = $factory->fromPrimitives(
-            petTypeValue: "cat",
-            petBreedValue: "foldex",
-            breedMixValue: "",
-            nameValue: "Pacha",
-            genderValue: "m",
-            dateOfBirthValue: "2017-02-23",
-            estimatedAgeValue: null
-        );
-
-        $this->assertInstanceOf(CatBreed::class, $pet->getPetBreed());
-    }
-
-    #[Test]
-    #[Group("unit")]
-    public function fromPrimitivesInjectsDogBreedWhenTypeIsDog(): void
-    {
-        $factory = new PetFactory();
-
-        $pet = $factory->fromPrimitives(
-            petTypeValue: "dog",
-            petBreedValue: "samoyed",
-            breedMixValue: "",
-            nameValue: "Kiwi",
-            genderValue: "f",
-            dateOfBirthValue: "2020-02-16",
-            estimatedAgeValue: null
-        );
-
-        $this->assertInstanceOf(DogBreed::class, $pet->getPetBreed());
     }
 }

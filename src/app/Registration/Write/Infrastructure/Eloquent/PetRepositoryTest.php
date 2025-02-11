@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Registration\Write\Infrastructure;
+namespace App\Registration\Write\Infrastructure\Eloquent;
 
 use Mockery;
 use Carbon\Carbon;
@@ -13,8 +13,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Shared\Eloquent\PetType as PetTypeEloquent;
 use App\Shared\Exceptions\ResourceNotFoundException;
 use App\Shared\Eloquent\PetBreed as PetBreedEloquent;
-use App\Registration\Write\Domain\ValueObjects\CatBreed;
-use App\Registration\Write\Domain\ValueObjects\DogBreed;
 use App\Registration\Write\Domain\ValueObjects\PetBreed;
 use App\Registration\Write\Domain\ValueObjects\PetTypes;
 use App\Registration\Write\Domain\ValueObjects\PetGenders;
@@ -27,15 +25,15 @@ class PetRepositoryTest extends TestCase
 
     #[Test]
     #[Group("integration")]
-    public function persistThrowsExceptionWhenTypeDoesNotExist(): void
+    public function itThrowsAnExceptionWhenPersistedTypeDoesNotExist(): void
     {
         $pet = new Pet(
+            petName: "Kiwi",
+            petGender: PetGenders::Female,
+            petDateOfBirth: Mockery::mock(PetDateOfBirth::class),
             petType: PetTypes::Dog,
-            petBreed: new DogBreed("samoyed"),
-            breedMix: "",
-            name: "Kiwi",
-            gender: PetGenders::Female,
-            dateOfBirth: Mockery::mock(PetDateOfBirth::class),
+            petBreed: new PetBreed("samoyed"),
+            petBreedMix: "",
         );
 
         // ACT
@@ -48,18 +46,18 @@ class PetRepositoryTest extends TestCase
 
     #[Test]
     #[Group("integration")]
-    public function persistThrowsExceptionWhenBreedDoesNotExist(): void
+    public function itThrowsAnExceptionWhenPersistedBreedDoesNotExist(): void
     {
         // ARRANGE
-        PetTypeEloquent::create(["key" => "dog"]);
+        PetTypeEloquent::create(["key" => PetTypes::Dog->value]);
 
         $pet = new Pet(
+            petName: "Kiwi",
+            petGender: PetGenders::Female,
+            petDateOfBirth: Mockery::mock(PetDateOfBirth::class),
             petType: PetTypes::Dog,
-            petBreed: new DogBreed("samoyed"),
-            breedMix: "",
-            name: "Kiwi",
-            gender: PetGenders::Female,
-            dateOfBirth: Mockery::mock(PetDateOfBirth::class),
+            petBreed: new PetBreed("samoyed"),
+            petBreedMix: "",
         );
 
         // ACT
@@ -72,24 +70,24 @@ class PetRepositoryTest extends TestCase
 
     #[Test]
     #[Group("integration")]
-    public function persistThrowsExceptionWhenBreedDoesNotBelongToType(): void
+    public function itThrowsAnExceptionWhenPersistedBreedDoesNotBelongToType(): void
     {
         // ARRANGE
         $petTypesEloquent = [
-            PetTypeEloquent::create(["key" => "cat"]),
-            PetTypeEloquent::create(["key" => "dog"])
+            PetTypeEloquent::create(["key" => PetTypes::Cat->value]),
+            PetTypeEloquent::create(["key" => PetTypes::Dog->value])
         ];
 
         PetBreedEloquent::create(["pet_type_id" => $petTypesEloquent[0]->id, "key" => "russian_blue"]);
         PetBreedEloquent::create(["pet_type_id" => $petTypesEloquent[1]->id, "key" => "samoyed"]);
 
         $pet = new Pet(
-            petType: PetTypes::Dog,
-            petBreed: new CatBreed("russian_blue"),
-            breedMix: "",
-            name: "Cc",
-            gender: PetGenders::Female,
-            dateOfBirth: Mockery::mock(PetDateOfBirth::class),
+            petName: "Kiwi",
+            petGender: PetGenders::Female,
+            petDateOfBirth: Mockery::mock(PetDateOfBirth::class),
+            petType: PetTypes::Cat,
+            petBreed: new PetBreed("samoyed"),
+            petBreedMix: "",
         );
 
         // ACT
@@ -102,20 +100,21 @@ class PetRepositoryTest extends TestCase
 
     #[Test]
     #[Group("integration")]
-    public function persistPersistsDataInDatabase(): void
+    public function itPersistsData(): void
     {
         // ARRANGE
-        $petTypeEloquent = PetTypeEloquent::create(["key" => "dog"]);
+        $petTypeEloquent = PetTypeEloquent::create(["key" => PetTypes::Dog->value]);
         $petBreedEloquent = PetBreedEloquent::create(["pet_type_id" => $petTypeEloquent->id, "key" => "samoyed"]);
 
         $pet = new Pet(
+            petName: "Kiwi",
+            petGender: PetGenders::Female,
+            petDateOfBirth: PetDateOfBirth::fromDateOfBirth("2020-02-16"),
             petType: PetTypes::Dog,
-            petBreed: new DogBreed("samoyed"),
-            breedMix: "",
-            name: "Kiwi",
-            gender: PetGenders::Female,
-            dateOfBirth: PetDateOfBirth::fromDateOfBirth("2020-02-16"),
+            petBreed: new PetBreed("samoyed"),
+            petBreedMix: "",
         );
+
 
         // ACT
         $repository = app(PetRepository::class);

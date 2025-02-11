@@ -16,13 +16,13 @@ class CreatePetCommandHandler
     public function execute(CreatePetCommand $command): int
     {
         $pet = $this->petFactory->fromPrimitives(
+            petNameValue: $command->petName,
+            petGenderValue: $command->petGender,
+            petDateOfBirthValue: $command->petDateOfBirth,
+            petEstimatedAgeValue: $command->petEstimatedAge,
             petTypeValue: $command->petType,
             petBreedValue: $command->petBreed,
-            breedMixValue: $command->breedMix,
-            nameValue: $command->name,
-            genderValue: $command->gender,
-            dateOfBirthValue: $command->dateOfBirth,
-            estimatedAgeValue: $command->estimatedAge
+            petBreedMixValue: $command->petBreedMix,
         );
 
         return $this->petRepository->persist($pet);

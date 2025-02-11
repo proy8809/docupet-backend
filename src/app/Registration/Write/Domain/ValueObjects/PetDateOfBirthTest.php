@@ -11,20 +11,20 @@ class PetDateOfBirthTest extends TestCase
 {
     #[Test]
     #[Group("unit")]
-    public function fromDateOfBirthReturnsCreatesDateOfBirthWithDate(): void
+    public function itSetsDateOfBirthWhenGivenDateOfBirth(): void
     {
         $dateOfBirth = PetDateOfBirth::fromDateOfBirth("2020-02-16");
 
-        $this->assertEquals("2020-02-16", $dateOfBirth->getValue());
+        $this->assertEquals("2020-02-16", (string) $dateOfBirth);
     }
 
     #[Test]
     #[Group("unit")]
-    public function fromEstimatedAgeCalculatedDateOfBirth(): void
+    public function itEstimatesDateOfBirthWhenGivenEstimatedAge(): void
     {
         Carbon::setTestNow(Carbon::parse("2025-02-16"));
         $dateOfBirth = PetDateOfBirth::fromEstimatedAge(5);
 
-        $this->assertEquals("2020-02-16", $dateOfBirth->getValue());
+        $this->assertEquals("2020-02-16", (string) $dateOfBirth);
     }
 }

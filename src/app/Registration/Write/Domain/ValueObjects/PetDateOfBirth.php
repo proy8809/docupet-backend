@@ -2,9 +2,10 @@
 
 namespace App\Registration\Write\Domain\ValueObjects;
 
+use Stringable;
 use Carbon\Carbon;
 
-class PetDateOfBirth
+class PetDateOfBirth implements Stringable
 {
     public static function fromDateOfBirth(string $dateOfBirth): self
     {
@@ -21,7 +22,7 @@ class PetDateOfBirth
     ) {
     }
 
-    public function getValue(): string
+    public function __toString(): string
     {
         return $this->value->format("Y-m-d");
     }

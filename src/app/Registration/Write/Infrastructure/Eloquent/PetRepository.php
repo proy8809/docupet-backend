@@ -27,7 +27,7 @@ class PetRepository implements PetRepositoryInterface
 
     private function getPetBreedEloquent(PetBreed $petBreed): PetBreedEloquent
     {
-        $petBreedEloquent = PetBreedEloquent::query()->where("key", $petBreed->getValue())->first();
+        $petBreedEloquent = PetBreedEloquent::query()->where("key", $petBreed->value)->first();
 
         if (isset($petBreedEloquent) === false) {
             throw new ResourceNotFoundException("api.exceptions.pet_breed_not_found");
@@ -52,10 +52,10 @@ class PetRepository implements PetRepositoryInterface
         $petEloquent = new PetEloquent([
             "pet_type_id" => $petTypeEloquent->id,
             "pet_breed_id" => $petBreedEloquent?->id,
-            "breed_mix" => $pet->getBreedMix(),
-            "name" => $pet->getName(),
-            "gender" => $pet->getGender()->value,
-            "date_of_birth" => $pet->getDateOfBirth()->getValue(),
+            "breed_mix" => $pet->getPetBreedMix(),
+            "name" => $pet->getPetName(),
+            "gender" => $pet->getPetGender()->value,
+            "date_of_birth" => (string) $pet->getPetDateOfBirth(),
             "is_dangerous" => $pet->isDangerous()
         ]);
 

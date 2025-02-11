@@ -12,78 +12,95 @@ use App\Registration\Write\Domain\ValueObjects\PetBreed;
 use App\Registration\Write\Domain\ValueObjects\PetTypes;
 use App\Registration\Write\Domain\ValueObjects\PetGenders;
 use App\Registration\Write\Domain\ValueObjects\PetDateOfBirth;
+use App\Registration\Write\Domain\Specifications\PetDangerosity\DangerousBreeds;
 
 class PetTest extends TestCase
 {
-    public static function stubPetWithoutBreed(): Generator
+    public static function stubCat(): Generator
     {
         yield [
             new Pet(
+                petName: "Cc",
+                petGender: PetGenders::Female,
+                petDateOfBirth: Mockery::mock(PetDateOfBirth::class),
+                petType: PetTypes::Cat,
+                petBreed: new PetBreed("russian_blue"),
+                petBreedMix: ""
+            )
+        ];
+    }
+
+    public static function stubDogOfNoBreed(): Generator
+    {
+        yield [
+            new Pet(
+                petName: "Miquette",
+                petGender: PetGenders::Female,
+                petDateOfBirth: Mockery::mock(PetDateOfBirth::class),
                 petType: PetTypes::Dog,
                 petBreed: null,
-                breedMix: "",
-                name: "Miquette",
-                gender: PetGenders::Female,
-                dateOfBirth: Mockery::mock(PetDateOfBirth::class),
+                petBreedMix: ""
             )
         ];
     }
 
-    public static function stubPetOfNonDangerousBreed(): Generator
+    public static function stubDogOfNonDangerousBreed(): Generator
     {
-        $anyNonDangerousBreed = Mockery::mock(PetBreed::class);
-        $anyNonDangerousBreed->shouldReceive("isDangerous")->andReturn(false);
-
         yield [
             new Pet(
+                petName: "Kiwi",
+                petGender: PetGenders::Female,
+                petDateOfBirth: Mockery::mock(PetDateOfBirth::class),
                 petType: PetTypes::Dog,
-                petBreed: $anyNonDangerousBreed,
-                breedMix: "",
-                name: "Kiwi",
-                gender: PetGenders::Female,
-                dateOfBirth: Mockery::mock(PetDateOfBirth::class),
+                petBreed: new PetBreed("samoyed"),
+                petBreedMix: ""
             )
         ];
     }
 
-    public static function stubPetOfDangerousBreed(): Generator
+    public static function stubDogOfDangerousBreed(): Generator
     {
-        $anyDangerousBreed = Mockery::mock(PetBreed::class);
-        $anyDangerousBreed->shouldReceive("isDangerous")->andReturn(true);
-
         yield [
             new Pet(
+                petName: "Shadow",
+                petGender: PetGenders::Male,
+                petDateOfBirth: Mockery::mock(PetDateOfBirth::class),
                 petType: PetTypes::Dog,
-                petBreed: $anyDangerousBreed,
-                breedMix: "",
-                name: "Shadow",
-                gender: PetGenders::Male,
-                dateOfBirth: Mockery::mock(PetDateOfBirth::class),
+                petBreed: new PetBreed(DangerousBreeds::GermanShepherd->value),
+                petBreedMix: ""
             )
         ];
     }
 
     #[Test]
-    #[Group("unit")]
-    #[DataProvider("stubPetWithoutBreed")]
-    public function isDangerousReturnsFalseWhenNoBreed(Pet $stubPetWithoutBreed): void
+    #[Group("integration")]
+    #[DataProvider("stubCat")]
+    public function itReturnsFalseWhenPetIsCat(Pet $stubCat): void
     {
-        $this->assertFalse($stubPetWithoutBreed->isDangerous());
+        $this->assertFalse($stubCat->isDangerous());
     }
 
     #[Test]
-    #[Group("unit")]
-    #[DataProvider("stubPetOfNonDangerousBreed")]
-    public function isDangerousReturnsFalseIfBreedIsNotDangerous(Pet $stubPetOfNonDangerousBreed): void
+    #[Group("integration")]
+    #[DataProvider("stubDogOfNoBreed")]
+    public function itReturnsFalseWhenPetIsDogOfNoBreed(Pet $stubDogWithNoBreed): void
     {
-        $this->assertFalse($stubPetOfNonDangerousBreed->isDangerous());
+        $this->assertFalse($stubDogWithNoBreed->isDangerous());
     }
 
     #[Test]
-    #[Group("unit")]
-    #[DataProvider("stubPetOfDangerousBreed")]
-    public function isDangerousReturnsTrueIfBreedIsDangerous(Pet $stubPetOfDangerousBreed): void
+    #[Group("integration")]
+    #[DataProvider("stubDogOfNonDangerousBreed")]
+    public function itReturnsFalseWhenPetIsDogOfNonDangerousBreed(Pet $stubDogOfNonDangerousBreed): void
     {
-        $this->assertTrue($stubPetOfDangerousBreed->isDangerous());
+        $this->assertFalse($stubDogOfNonDangerousBreed->isDangerous());
+    }
+
+    #[Test]
+    #[Group("integration")]
+    #[DataProvider("stubDogOfDangerousBreed")]
+    public function itReturnsTrueWhenPetIsDogOfDangerousBreed(Pet $stubDogOfDangerousBreed): void
+    {
+        $this->assertTrue($stubDogOfDangerousBreed->isDangerous());
     }
 }

@@ -3,8 +3,6 @@
 namespace App\Registration\Write\Domain;
 
 use App\Shared\Exceptions\BadOperationException;
-use App\Registration\Write\Domain\ValueObjects\CatBreed;
-use App\Registration\Write\Domain\ValueObjects\DogBreed;
 use App\Registration\Write\Domain\ValueObjects\PetBreed;
 use App\Registration\Write\Domain\ValueObjects\PetTypes;
 use App\Registration\Write\Domain\ValueObjects\PetGenders;
@@ -12,7 +10,7 @@ use App\Registration\Write\Domain\ValueObjects\PetDateOfBirth;
 
 class PetFactory
 {
-    private function getPetType(string $value): PetTypes
+    private function makePetType(string $value): PetTypes
     {
         $petType = PetTypes::tryFrom($value);
 
@@ -23,15 +21,7 @@ class PetFactory
         return $petType;
     }
 
-    private function getPetBreed(PetTypes $petType, string $value): PetBreed
-    {
-        return match ($petType) {
-            PetTypes::Cat => new CatBreed($value),
-            PetTypes::Dog => new DogBreed($value)
-        };
-    }
-
-    private function getPetGender(string $value): PetGenders
+    private function makePetGender(string $value): PetGenders
     {
         $petGender = PetGenders::tryFrom($value);
 
@@ -42,7 +32,7 @@ class PetFactory
         return $petGender;
     }
 
-    private function getPetDateOfBirth(?string $dateOfBirth, ?int $estimatedAge): PetDateOfBirth
+    private function makePetDateOfBirth(?string $dateOfBirth, ?int $estimatedAge): PetDateOfBirth
     {
         if (isset($dateOfBirth) === true) {
             return PetDateOfBirth::fromDateOfBirth($dateOfBirth);
@@ -56,26 +46,23 @@ class PetFactory
     }
 
     public function fromPrimitives(
+        string $petNameValue,
+        string $petGenderValue,
+        ?string $petDateOfBirthValue,
+        ?int $petEstimatedAgeValue,
         string $petTypeValue,
-        string $petBreedValue,
-        string $breedMixValue,
-        string $nameValue,
-        string $genderValue,
-        ?string $dateOfBirthValue,
-        ?int $estimatedAgeValue
+        ?string $petBreedValue,
+        string $petBreedMixValue,
     ): Pet {
-        $petType = $this->getPetType($petTypeValue);
-        $petBreed = $this->getPetBreed($petType, $petBreedValue);
-        $petGender = $this->getPetGender($genderValue);
-        $dateOfBirth = $this->getPetDateOfBirth($dateOfBirthValue, $estimatedAgeValue);
+        $petType = $this->makePetType($petTypeValue);
 
         return new Pet(
+            petName: $petNameValue,
+            petGender: $this->makePetGender($petGenderValue),
+            petDateOfBirth: $this->makePetDateOfBirth($petDateOfBirthValue, $petEstimatedAgeValue),
             petType: $petType,
-            petBreed: $petBreed,
-            breedMix: $breedMixValue,
-            name: $nameValue,
-            gender: $petGender,
-            dateOfBirth: $dateOfBirth
+            petBreed: isset($petBreedValue) === true ? new PetBreed($petBreedValue) : null,
+            petBreedMix: $petBreedMixValue
         );
     }
 }

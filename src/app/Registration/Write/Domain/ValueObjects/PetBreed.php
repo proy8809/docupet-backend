@@ -2,14 +2,15 @@
 
 namespace App\Registration\Write\Domain\ValueObjects;
 
-use App\Registration\Write\Domain\Specifications\DangerousBreed\DangerousBreed;
-
-abstract class PetBreed
+class PetBreed
 {
-    abstract public function getValue(): string;
+    public function __construct(
+        public readonly string $value,
+    ) {
+    }
 
-    public function isDangerous(): bool
+    public function isEqualTo(PetBreed $petBreed): bool
     {
-        return new DangerousBreed()->isSatisfiedBy($this);
+        return $this->value === $petBreed->value;
     }
 }
