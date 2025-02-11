@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('pets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("pet_type_id");
-            $table->unsignedBigInteger("pet_breed_id");
+            $table->unsignedBigInteger("pet_breed_id")->nullable();
             $table->string("breed_mix", 128);
             $table->string("name", 32);
             $table->enum("gender", ["m", "f"]);
