@@ -46,12 +46,12 @@ class Pet
 
     public function getDateOfBirth(): Carbon
     {
-        if (isset($this->dateOfBirth) === false && isset($this->estimatedAge) === false) {
-            throw new BadOperationException("api.exceptions.invalid_birth_data");
-        }
-
         if (isset($this->dateOfBirth) === true) {
             return $this->dateOfBirth;
+        }
+
+        if (isset($this->estimatedAge) === false) {
+            throw new BadOperationException("api.exceptions.invalid_birth_data");
         }
 
         return new EstimatedAgeDateOfBirth()->calculate($this->estimatedAge);
