@@ -1,0 +1,8 @@
+vendor
+src/.phpunit.cache
+src/.phpunit.result.cache
+storage
+.env
+.env.backup
+.env.production
+.vscode

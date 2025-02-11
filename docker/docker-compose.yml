@@ -1,0 +1,60 @@
+services:
+  webserver:
+    container_name: ${WEBSERVER_CONTAINER_NAME:-docupet-challenge-webserver}
+    image: nginx:alpine
+    restart: always
+    ports:
+      - ${WEBSERVER_CONTAINER_PORT:-8000}:80
+    volumes:
+      - ${APP_VOLUME:-../src}:/var/www
+      - ./webserver/conf.d/:/etc/webserver/conf.d/
+    depends_on:
+      - app
+  app:
+    container_name: ${APP_CONTAINER_NAME:-docupet-challenge-app}
+    user: ${APP_USER}:${APP_USER}
+    build:
+      context: ..
+      dockerfile: docker/app/Dockerfile
+      args:
+        - DOCKER_USER=${APP_USER:-user}
+        - DOCKER_USER_UID=${APP_UID:-1000}
+    restart: always
+    environment:
+      - PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-1024M}
+    ports:
+      - "9000:9000"
+    volumes:
+      - ${APP_VOLUME:-../src}:/var/www
+    depends_on:
+      - mysql
+  mysql:
+    image: "mysql/mysql-server:8.0"
+    restart: always
+    ports:
+      - "${DB_PORT:-3306}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: "${DB_DATABASE}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - "mysql:/var/lib/mysql"
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - "-p ${DB_PASSWORD}"
+      retries: 5
+      timeout: 5s
+
+networks:
+  docupet:
+    driver: external
+    name: docupet
+
+volumes:
+  mysql:
