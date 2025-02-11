@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Registration\Write\Domain;
+namespace App\Registration\Write\Domain\ValueObjects;
 
 use App\Registration\Write\Domain\Specifications\DangerousBreed\DangerousBreed;
 

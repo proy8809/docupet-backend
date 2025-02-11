@@ -3,6 +3,12 @@
 namespace App\Registration\Write\Domain;
 
 use App\Shared\Exceptions\BadOperationException;
+use App\Registration\Write\Domain\ValueObjects\CatBreed;
+use App\Registration\Write\Domain\ValueObjects\DogBreed;
+use App\Registration\Write\Domain\ValueObjects\PetBreed;
+use App\Registration\Write\Domain\ValueObjects\PetTypes;
+use App\Registration\Write\Domain\ValueObjects\PetGenders;
+use App\Registration\Write\Domain\ValueObjects\PetDateOfBirth;
 
 class PetFactory
 {

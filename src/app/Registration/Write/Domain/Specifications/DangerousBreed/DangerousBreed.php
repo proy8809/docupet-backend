@@ -2,8 +2,8 @@
 
 namespace App\Registration\Write\Domain\Specifications\DangerousBreed;
 
-use App\Registration\Write\Domain\CatBreed;
-use App\Registration\Write\Domain\PetBreed;
+use App\Registration\Write\Domain\ValueObjects\CatBreed;
+use App\Registration\Write\Domain\ValueObjects\PetBreed;
 
 class DangerousBreed
 {

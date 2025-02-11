@@ -2,6 +2,11 @@
 
 namespace App\Registration\Write\Domain;
 
+use App\Registration\Write\Domain\ValueObjects\PetBreed;
+use App\Registration\Write\Domain\ValueObjects\PetTypes;
+use App\Registration\Write\Domain\ValueObjects\PetGenders;
+use App\Registration\Write\Domain\ValueObjects\PetDateOfBirth;
+
 class Pet
 {
     public function __construct(

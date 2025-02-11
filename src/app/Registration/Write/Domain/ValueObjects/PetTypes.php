@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Registration\Write\Domain;
+namespace App\Registration\Write\Domain\ValueObjects;
 
 enum PetTypes: string
 {

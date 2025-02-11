@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Registration\Write\Domain;
+namespace App\Registration\Write\Domain\ValueObjects;
 
-class DogBreed extends PetBreed
+class CatBreed extends PetBreed
 {
     public function __construct(
         private readonly string $value

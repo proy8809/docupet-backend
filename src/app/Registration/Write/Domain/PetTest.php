@@ -4,11 +4,14 @@ namespace App\Registration\Write\Domain;
 
 use Mockery;
 use Generator;
-use Carbon\Carbon;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\DataProvider;
+use App\Registration\Write\Domain\ValueObjects\PetBreed;
+use App\Registration\Write\Domain\ValueObjects\PetTypes;
+use App\Registration\Write\Domain\ValueObjects\PetGenders;
+use App\Registration\Write\Domain\ValueObjects\PetDateOfBirth;
 
 class PetTest extends TestCase
 {

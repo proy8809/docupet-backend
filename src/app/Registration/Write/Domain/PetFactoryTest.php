@@ -6,6 +6,8 @@ use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\Group;
 use App\Shared\Exceptions\BadOperationException;
+use App\Registration\Write\Domain\ValueObjects\CatBreed;
+use App\Registration\Write\Domain\ValueObjects\DogBreed;
 
 class PetFactoryTest extends TestCase
 {
