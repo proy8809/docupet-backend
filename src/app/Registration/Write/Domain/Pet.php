@@ -2,10 +2,6 @@
 
 namespace App\Registration\Write\Domain;
 
-use Carbon\Carbon;
-use App\Shared\Exceptions\BadOperationException;
-use App\Registration\Write\Domain\Policies\EstimatedAgeDateOfBirth;
-
 class Pet
 {
     public function __construct(
@@ -14,8 +10,7 @@ class Pet
         private readonly string $breedMix,
         private readonly string $name,
         private readonly PetGenders $gender,
-        private readonly ?Carbon $dateOfBirth,
-        private readonly ?int $estimatedAge
+        private readonly DateOfBirth $dateOfBirth,
     ) {
     }
 
@@ -44,17 +39,9 @@ class Pet
         return $this->gender;
     }
 
-    public function getDateOfBirth(): Carbon
+    public function getDateOfBirth(): DateOfBirth
     {
-        if (isset($this->dateOfBirth) === true) {
-            return $this->dateOfBirth;
-        }
-
-        if (isset($this->estimatedAge) === false) {
-            throw new BadOperationException("api.exceptions.invalid_birth_data");
-        }
-
-        return new EstimatedAgeDateOfBirth()->calculate($this->estimatedAge);
+        return $this->dateOfBirth;
     }
 
     public function isDangerous(): bool

@@ -9,7 +9,6 @@ use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\DataProvider;
-use App\Shared\Exceptions\BadOperationException;
 
 class PetTest extends TestCase
 {
@@ -22,8 +21,7 @@ class PetTest extends TestCase
                 breedMix: "",
                 name: "Miquette",
                 gender: PetGenders::Female,
-                dateOfBirth: null,
-                estimatedAge: 17
+                dateOfBirth: Carbon::parse("2007-11-27"),
             )
         ];
     }
@@ -41,7 +39,6 @@ class PetTest extends TestCase
                 name: "Kiwi",
                 gender: PetGenders::Female,
                 dateOfBirth: Carbon::parse("2020-02-16"),
-                estimatedAge: null
             )
         ];
     }
@@ -58,53 +55,7 @@ class PetTest extends TestCase
                 breedMix: "",
                 name: "Shadow",
                 gender: PetGenders::Male,
-                dateOfBirth: null,
-                estimatedAge: 4
-            )
-        ];
-    }
-
-    public static function stubPetOfMissingDateOfBirthData(): Generator
-    {
-        yield [
-            new Pet(
-                petType: PetTypes::Dog,
-                petBreed: Mockery::mock(PetBreed::class),
-                breedMix: "",
-                name: "Miquette",
-                gender: PetGenders::Female,
-                dateOfBirth: null,
-                estimatedAge: null
-            )
-        ];
-    }
-
-    public static function stubPetOfKnownBirthDate(): Generator
-    {
-        yield [
-            new Pet(
-                petType: PetTypes::Dog,
-                petBreed: Mockery::mock(PetBreed::class),
-                breedMix: "",
-                name: "Kiwi",
-                gender: PetGenders::Female,
-                dateOfBirth: Carbon::parse("2020-02-16"),
-                estimatedAge: null
-            )
-        ];
-    }
-
-    public static function stubPetOfEstimatedAge(): Generator
-    {
-        yield [
-            new Pet(
-                petType: PetTypes::Dog,
-                petBreed: Mockery::mock(PetBreed::class),
-                breedMix: "",
-                name: "Shadow",
-                gender: PetGenders::Male,
-                dateOfBirth: null,
-                estimatedAge: 4
+                dateOfBirth: Carbon::parse("2021-04-11"),
             )
         ];
     }
@@ -131,37 +82,5 @@ class PetTest extends TestCase
     public function isDangerousReturnsTrueIfBreedIsDangerous(Pet $stubPetOfDangerousBreed): void
     {
         $this->assertTrue($stubPetOfDangerousBreed->isDangerous());
-    }
-
-    #[Test]
-    #[Group("unit")]
-    #[DataProvider("stubPetOfMissingDateOfBirthData")]
-    public function getDateOfBirthThrowsExeceptionWhenMissingData(Pet $stubPetOfMissingDateOfBirthData): void
-    {
-        $action = fn() => $stubPetOfMissingDateOfBirthData->getDateOfBirth();
-
-        $this->assertThrows($action, BadOperationException::class);
-    }
-
-    #[Test]
-    #[Group("unit")]
-    #[DataProvider("stubPetOfKnownBirthDate")]
-    public function getDateOfBirthReturnsKnownDateOfBirthIfDefined(Pet $stubPetOfKnownBirthDate): void
-    {
-        $actual = $stubPetOfKnownBirthDate->getDateOfBirth();
-
-        $this->assertEquals("2020-02-16", $actual->format("Y-m-d"));
-    }
-
-    #[Test]
-    #[Group("integration")]
-    #[DataProvider("stubPetOfEstimatedAge")]
-    public function getDateOfBirthGivesDateForEstimatedAge(Pet $stubPetOfEstimatedAge): void
-    {
-        Carbon::setTestNow(Carbon::parse("2025-02-11"));
-
-        $actual = $stubPetOfEstimatedAge->getDateOfBirth();
-
-        $this->assertEquals("2021-02-11", $actual->format("Y-m-d"));
     }
 }
