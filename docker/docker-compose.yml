@@ -29,6 +29,7 @@ services:
     depends_on:
       - mysql
   mysql:
+    container_name: ${DB_CONTAINER_NAME:-docupet-challenge-db}
     image: "mysql/mysql-server:8.0"
     restart: always
     ports:
@@ -48,8 +49,9 @@ services:
         - mysqladmin
         - ping
         - "-p ${DB_PASSWORD}"
-      retries: 5
+      interval: 5s
       timeout: 5s
+      retries: 5
 
 networks:
   docupet:
