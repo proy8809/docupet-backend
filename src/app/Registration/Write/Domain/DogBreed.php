@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Registration\Domain;
+namespace App\Registration\Write\Domain;
 
 class DogBreed extends PetBreed
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Registration\Domain;
+namespace App\Registration\Write\Domain;
 
-use App\Registration\Domain\Specifications\DangerousBreed;
+use App\Registration\Write\Domain\Specifications\DangerousBreed;
 
 abstract class PetBreed
 {

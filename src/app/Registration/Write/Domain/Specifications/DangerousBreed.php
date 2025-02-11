@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Registration\Domain\Specifications;
+namespace App\Registration\Write\Domain\Specifications;
 
-use App\Registration\Domain\CatBreed;
-use App\Registration\Domain\PetBreed;
+use App\Registration\Write\Domain\CatBreed;
+use App\Registration\Write\Domain\PetBreed;
 
 class DangerousBreed
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Registration\Domain\Policies;
+namespace App\Registration\Write\Domain\Policies;
 
 use Carbon\Carbon;
 use Tests\TestCase;

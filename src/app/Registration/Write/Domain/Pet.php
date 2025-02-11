@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Registration\Domain;
+namespace App\Registration\Write\Domain;
 
 use Carbon\Carbon;
 use App\Shared\Exceptions\BadOperationException;
-use App\Registration\Domain\Policies\EstimatedAgeDateOfBirth;
+use App\Registration\Write\Domain\Policies\EstimatedAgeDateOfBirth;
 
 class Pet
 {

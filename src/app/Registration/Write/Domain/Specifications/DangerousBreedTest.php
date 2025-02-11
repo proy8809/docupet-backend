@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Registration\Domain\Specifications;
+namespace App\Registration\Write\Domain\Specifications;
 
 use Mockery;
 use Tests\TestCase;
-use App\Registration\Domain\CatBreed;
-use App\Registration\Domain\DogBreed;
+use App\Registration\Write\Domain\CatBreed;
+use App\Registration\Write\Domain\DogBreed;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\Group;
 
