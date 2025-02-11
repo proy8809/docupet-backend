@@ -21,7 +21,7 @@ class PetTest extends TestCase
                 breedMix: "",
                 name: "Miquette",
                 gender: PetGenders::Female,
-                dateOfBirth: Carbon::parse("2007-11-27"),
+                dateOfBirth: Mockery::mock(PetDateOfBirth::class),
             )
         ];
     }
@@ -38,7 +38,7 @@ class PetTest extends TestCase
                 breedMix: "",
                 name: "Kiwi",
                 gender: PetGenders::Female,
-                dateOfBirth: Carbon::parse("2020-02-16"),
+                dateOfBirth: Mockery::mock(PetDateOfBirth::class),
             )
         ];
     }
@@ -55,7 +55,7 @@ class PetTest extends TestCase
                 breedMix: "",
                 name: "Shadow",
                 gender: PetGenders::Male,
-                dateOfBirth: Carbon::parse("2021-04-11"),
+                dateOfBirth: Mockery::mock(PetDateOfBirth::class),
             )
         ];
     }

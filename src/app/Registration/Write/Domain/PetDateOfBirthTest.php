@@ -6,15 +6,14 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\Group;
-use function PHPUnit\Framework\assertEquals;
 
-class DateOfBirthTest extends TestCase
+class PetDateOfBirthTest extends TestCase
 {
     #[Test]
     #[Group("unit")]
     public function fromDateOfBirthReturnsCreatesDateOfBirthWithDate(): void
     {
-        $dateOfBirth = DateOfBirth::fromDateOfBirth("2020-02-16");
+        $dateOfBirth = PetDateOfBirth::fromDateOfBirth("2020-02-16");
 
         $this->assertEquals("2020-02-16", $dateOfBirth->getValue());
     }
@@ -24,7 +23,7 @@ class DateOfBirthTest extends TestCase
     public function fromEstimatedAgeCalculatedDateOfBirth(): void
     {
         Carbon::setTestNow(Carbon::parse("2025-02-16"));
-        $dateOfBirth = DateOfBirth::fromEstimatedAge(5);
+        $dateOfBirth = PetDateOfBirth::fromEstimatedAge(5);
 
         $this->assertEquals("2020-02-16", $dateOfBirth->getValue());
     }

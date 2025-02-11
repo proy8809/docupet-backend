@@ -10,7 +10,7 @@ class Pet
         private readonly string $breedMix,
         private readonly string $name,
         private readonly PetGenders $gender,
-        private readonly DateOfBirth $dateOfBirth,
+        private readonly PetDateOfBirth $dateOfBirth,
     ) {
     }
 
@@ -39,7 +39,7 @@ class Pet
         return $this->gender;
     }
 
-    public function getDateOfBirth(): DateOfBirth
+    public function getDateOfBirth(): PetDateOfBirth
     {
         return $this->dateOfBirth;
     }

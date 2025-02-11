@@ -4,7 +4,7 @@ namespace App\Registration\Write\Domain;
 
 use Carbon\Carbon;
 
-class DateOfBirth
+class PetDateOfBirth
 {
     public static function fromDateOfBirth(string $dateOfBirth): self
     {

@@ -2,7 +2,7 @@
 
 namespace App\Registration\Write\Domain;
 
-use App\Registration\Write\Domain\Specifications\DangerousBreed;
+use App\Registration\Write\Domain\Specifications\DangerousBreed\DangerousBreed;
 
 abstract class PetBreed
 {
