@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Registration\Write\Domain\Specifications;
+namespace App\Registration\Write\Domain\Specifications\DangerousBreed;
 
 enum DangerousDogBreeds: string
 {

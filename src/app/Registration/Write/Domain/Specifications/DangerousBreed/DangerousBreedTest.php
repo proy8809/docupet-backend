@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Registration\Write\Domain\Specifications;
+namespace App\Registration\Write\Domain\Specifications\DangerousBreed;
 
 use Mockery;
 use Tests\TestCase;
-use App\Registration\Write\Domain\CatBreed;
-use App\Registration\Write\Domain\DogBreed;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\Group;
+use App\Registration\Write\Domain\CatBreed;
+use App\Registration\Write\Domain\DogBreed;
 
 class DangerousBreedTest extends TestCase
 {
