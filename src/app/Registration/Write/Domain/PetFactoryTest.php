@@ -13,6 +13,43 @@ class PetFactoryTest extends TestCase
 {
     #[Test]
     #[Group("unit")]
+    public function fromPrimitivesThrowsExceptionWhenPetTypeInvalid(): void
+    {
+        $factory = new PetFactory();
+
+        $action = fn() => $factory->fromPrimitives(
+            petTypeValue: "oppossum",
+            petBreedValue: "samoyed",
+            breedMixValue: "",
+            nameValue: "Kiwi",
+            genderValue: "f",
+            dateOfBirthValue: "2020-02-16",
+            estimatedAgeValue: null
+        );
+
+        $this->assertThrows($action, BadOperationException::class);
+    }
+
+    #[Test]
+    #[Group("unit")]
+    public function fromPrimitivesThrowsExceptionWhenPetGenderInvalid(): void
+    {
+        $factory = new PetFactory();
+        $action = fn() => $factory->fromPrimitives(
+            petTypeValue: "dog",
+            petBreedValue: "samoyed",
+            breedMixValue: "",
+            nameValue: "Kiwi",
+            genderValue: "b",
+            dateOfBirthValue: "2020-02-16",
+            estimatedAgeValue: null
+        );
+
+        $this->assertThrows($action, BadOperationException::class);
+    }
+
+    #[Test]
+    #[Group("unit")]
     public function fromPrimitivesThrowsExceptionWhenMissingBirthData(): void
     {
         $factory = new PetFactory();
