@@ -18,7 +18,7 @@ class GetPetSummaryQueryHandler
 
         return new PetSummary(
             petName: $petEloquent->name,
-            petAge: Carbon::createFromTimestampUTC($petEloquent->date_of_birth)->age,
+            petAge: Carbon::parse($petEloquent->date_of_birth)->age,
             petGender: $petEloquent->gender,
             petType: $petEloquent->petType->key,
             petBreed: $petEloquent->petBreed?->key,

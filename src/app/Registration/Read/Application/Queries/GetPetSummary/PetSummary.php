@@ -20,12 +20,12 @@ class PetSummary implements JsonSerializable
     public function jsonSerialize(): mixed
     {
         return [
-            "pet_name" => $this->petName,
-            "pet_age" => $this->petAge,
-            "pet_gender" => $this->petGender,
-            "pet_type" => $this->petType,
-            "pet_breed" => $this->petBreed,
-            "pet_breed_mix" => $this->petBreedMix,
+            "name" => $this->petName,
+            "age" => $this->petAge,
+            "gender" => $this->petGender,
+            "type" => $this->petType,
+            "breed" => $this->petBreed,
+            "breed_mix" => $this->petBreedMix,
             "is_dangerous" => $this->isDangerous
         ];
     }

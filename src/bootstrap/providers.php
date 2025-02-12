@@ -1,3 +1,7 @@
 <?php
 
-return [];
+use App\Registration\RegistrationServiceProvider;
+
+return [
+    RegistrationServiceProvider::class
+];

@@ -7,7 +7,9 @@ services:
       - ${WEBSERVER_CONTAINER_PORT:-8000}:80
     volumes:
       - ${APP_VOLUME:-../src}:/var/www
-      - ./webserver/conf.d/:/etc/webserver/conf.d/
+      - ./webserver/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - docupet
     depends_on:
       - app
   app:
@@ -26,6 +28,8 @@ services:
       - "9000:9000"
     volumes:
       - ${APP_VOLUME:-../src}:/var/www
+    networks:
+      - docupet
     depends_on:
       - mysql
   mysql:
@@ -43,6 +47,8 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     volumes:
       - "mysql:/var/lib/mysql"
+    networks:
+      - docupet
     healthcheck:
       test:
         - CMD
@@ -55,8 +61,8 @@ services:
 
 networks:
   docupet:
-    driver: external
     name: docupet
+    external: true
 
 volumes:
   mysql:
