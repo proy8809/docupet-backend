@@ -1,2 +1,2 @@
-docker exec -it docupet-challenge-app php artisan migrate:fresh --seed
+docker exec -it docupet-challenge-api php artisan migrate:fresh --seed
 

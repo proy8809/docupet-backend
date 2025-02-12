@@ -37,7 +37,7 @@ ENV PHP_MEMORY_LIMIT=1024M
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY src/composer.json /var/www/
 
-COPY docker/app/entrypoint.sh /
+COPY docker/api/entrypoint.sh /
 
 ARG DOCKER_USER=user
 ARG DOCKER_USER_UID=1000

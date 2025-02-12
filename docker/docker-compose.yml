@@ -6,28 +6,28 @@ services:
     ports:
       - ${WEBSERVER_CONTAINER_PORT:-8000}:80
     volumes:
-      - ${APP_VOLUME:-../src}:/var/www
+      - ${API_VOLUME:-../src}:/var/www
       - ./webserver/conf.d/:/etc/nginx/conf.d/
     networks:
       - docupet
     depends_on:
-      - app
-  app:
-    container_name: ${APP_CONTAINER_NAME:-docupet-challenge-app}
-    user: ${APP_USER}:${APP_USER}
+      - api
+  api:
+    container_name: ${API_CONTAINER_NAME:-docupet-challenge-api}
+    user: ${API_USER}:${API_USER}
     build:
       context: ..
-      dockerfile: docker/app/Dockerfile
+      dockerfile: docker/api/Dockerfile
       args:
-        - DOCKER_USER=${APP_USER:-user}
-        - DOCKER_USER_UID=${APP_UID:-1000}
+        - DOCKER_USER=${API_USER:-user}
+        - DOCKER_USER_UID=${API_UID:-1000}
     restart: always
     environment:
       - PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-1024M}
     ports:
       - "9000:9000"
     volumes:
-      - ${APP_VOLUME:-../src}:/var/www
+      - ${API_VOLUME:-../src}:/var/www
     networks:
       - docupet
     depends_on:
