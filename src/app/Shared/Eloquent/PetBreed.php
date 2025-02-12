@@ -5,6 +5,12 @@ namespace App\Shared\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $pet_type_id
+ * @property string $key
+ * @property PetType $petType
+ */
 class PetBreed extends Model
 {
     public $table = "pet_breeds";

@@ -5,6 +5,17 @@ namespace App\Shared\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property string $name
+ * @property string $gender
+ * @property string $date_of_birth
+ * @property int $pet_type_id
+ * @property ?int $pet_breed_id
+ * @property string $breed_mix
+ * @property bool $is_dangerous
+ * @property PetType $petType
+ * @property ?PetBreed $petBreed
+ */
 class Pet extends Model
 {
     public $table = "pets";
@@ -15,12 +26,12 @@ class Pet extends Model
      * @var list<string>
      */
     protected $fillable = [
-        "pet_type_id",
-        "pet_breed_id",
-        "breed_mix",
         "name",
         "gender",
         "date_of_birth",
+        "pet_type_id",
+        "pet_breed_id",
+        "breed_mix",
         "is_dangerous",
     ];
 

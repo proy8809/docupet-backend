@@ -3,8 +3,14 @@
 namespace App\Shared\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @property int $id
+ * @property string $key
+ * @property Collection<int,PetBreed> $petBreeds
+ */
 class PetType extends Model
 {
     public $table = "pet_types";

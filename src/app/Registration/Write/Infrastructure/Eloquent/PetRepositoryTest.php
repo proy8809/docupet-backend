@@ -3,7 +3,6 @@
 namespace App\Registration\Write\Infrastructure\Eloquent;
 
 use Mockery;
-use Carbon\Carbon;
 use Tests\TestCase;
 use App\Registration\Write\Domain\Pet;
 use PHPUnit\Framework\Attributes\Test;
