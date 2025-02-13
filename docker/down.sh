@@ -1,1 +1,1 @@
-docker compose down -t 0
+docker compose -p docupet-backend down -t 0
