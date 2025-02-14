@@ -11,9 +11,15 @@ use App\Shared\Eloquent\PetBreed as PetBreedEloquent;
 use App\Registration\Write\Domain\ValueObjects\PetBreed;
 use App\Registration\Write\Domain\ValueObjects\PetTypes;
 use App\Registration\Write\Domain\PetRepositoryInterface;
+use App\Registration\Write\Domain\Services\PetDangerosityServiceInterface;
 
 class PetRepository implements PetRepositoryInterface
 {
+    public function __construct(
+        private readonly PetDangerosityServiceInterface $petDangerosityService
+    ) {
+    }
+
     private function getPetTypeEloquent(PetTypes $petType): PetTypeEloquent
     {
         $petTypeEloquent = PetTypeEloquent::query()->where("key", $petType->value)->first();
@@ -56,7 +62,7 @@ class PetRepository implements PetRepositoryInterface
             "name" => $pet->getPetName(),
             "gender" => $pet->getPetGender()->value,
             "date_of_birth" => (string) $pet->getPetDateOfBirth(),
-            "is_dangerous" => $pet->isDangerous()
+            "is_dangerous" => $this->petDangerosityService->isDangerous($pet)
         ]);
 
         $petEloquent->save();

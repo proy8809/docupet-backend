@@ -6,8 +6,6 @@ use App\Registration\Write\Domain\ValueObjects\PetBreed;
 use App\Registration\Write\Domain\ValueObjects\PetTypes;
 use App\Registration\Write\Domain\ValueObjects\PetGenders;
 use App\Registration\Write\Domain\ValueObjects\PetDateOfBirth;
-use App\Registration\Write\Domain\Specifications\PetDangerosity\IsADog;
-use App\Registration\Write\Domain\Specifications\PetDangerosity\IsADangerousBreed;
 
 class Pet
 {
@@ -49,12 +47,5 @@ class Pet
     public function getPetBreedMix(): string
     {
         return $this->petBreedMix;
-    }
-
-    public function isDangerous(): bool
-    {
-        return new IsADog()->and(
-            new IsADangerousBreed()
-        )->isSatisfiedBy($this);
     }
 }

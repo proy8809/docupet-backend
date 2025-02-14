@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Registration\Write\Domain;
+namespace App\Registration\Write\Domain\Services;
 
 use Mockery;
 use Generator;
 use Tests\TestCase;
+use App\Registration\Write\Domain\Pet;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -14,7 +15,7 @@ use App\Registration\Write\Domain\ValueObjects\PetGenders;
 use App\Registration\Write\Domain\ValueObjects\PetDateOfBirth;
 use App\Registration\Write\Domain\Specifications\PetDangerosity\DangerousBreeds;
 
-class PetTest extends TestCase
+class PetDangerosityServiceTest extends TestCase
 {
     public static function stubCat(): Generator
     {
@@ -73,34 +74,38 @@ class PetTest extends TestCase
     }
 
     #[Test]
-    #[Group("integration")]
+    #[Group("unit")]
     #[DataProvider("stubCat")]
     public function itReturnsFalseWhenPetIsCat(Pet $stubCat): void
     {
-        $this->assertFalse($stubCat->isDangerous());
+        $service = app(PetDangerosityService::class);
+        $this->assertFalse($service->isDangerous($stubCat));
     }
 
     #[Test]
-    #[Group("integration")]
+    #[Group("unit")]
     #[DataProvider("stubDogOfNoBreed")]
     public function itReturnsFalseWhenPetIsDogOfNoBreed(Pet $stubDogWithNoBreed): void
     {
-        $this->assertFalse($stubDogWithNoBreed->isDangerous());
+        $service = app(PetDangerosityService::class);
+        $this->assertFalse($service->isDangerous($stubDogWithNoBreed));
     }
 
     #[Test]
-    #[Group("integration")]
+    #[Group("unit")]
     #[DataProvider("stubDogOfNonDangerousBreed")]
     public function itReturnsFalseWhenPetIsDogOfNonDangerousBreed(Pet $stubDogOfNonDangerousBreed): void
     {
-        $this->assertFalse($stubDogOfNonDangerousBreed->isDangerous());
+        $service = app(PetDangerosityService::class);
+        $this->assertFalse($service->isDangerous($stubDogOfNonDangerousBreed));
     }
 
     #[Test]
-    #[Group("integration")]
+    #[Group("unit")]
     #[DataProvider("stubDogOfDangerousBreed")]
     public function itReturnsTrueWhenPetIsDogOfDangerousBreed(Pet $stubDogOfDangerousBreed): void
     {
-        $this->assertTrue($stubDogOfDangerousBreed->isDangerous());
+        $service = app(PetDangerosityService::class);
+        $this->assertTrue($service->isDangerous($stubDogOfDangerousBreed));
     }
 }
