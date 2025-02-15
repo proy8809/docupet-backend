@@ -14,7 +14,6 @@ use App\Registration\Write\Domain\PetRepositoryInterface;
 
 class PetRepository implements PetRepositoryInterface
 {
-
     private function getPetTypeEloquent(PetTypes $petType): PetTypeEloquent
     {
         $petTypeEloquent = PetTypeEloquent::query()->where("key", $petType->value)->first();
