@@ -16,6 +16,7 @@ class Pet
         private readonly PetTypes $petType,
         private readonly ?PetBreed $petBreed,
         private readonly string $petBreedMix,
+        private bool $isDangerous = false
     ) {
     }
 
@@ -47,5 +48,15 @@ class Pet
     public function getPetBreedMix(): string
     {
         return $this->petBreedMix;
+    }
+
+    public function flagAsDangerous(): void
+    {
+        $this->isDangerous = true;
+    }
+
+    public function isDangerous(): bool
+    {
+        return $this->isDangerous;
     }
 }

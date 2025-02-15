@@ -33,6 +33,7 @@ class PetRepositoryTest extends TestCase
             petType: PetTypes::Dog,
             petBreed: new PetBreed("samoyed"),
             petBreedMix: "",
+            isDangerous: false
         );
 
         // ACT
@@ -57,6 +58,7 @@ class PetRepositoryTest extends TestCase
             petType: PetTypes::Dog,
             petBreed: new PetBreed("samoyed"),
             petBreedMix: "",
+            isDangerous: false
         );
 
         // ACT
@@ -87,6 +89,7 @@ class PetRepositoryTest extends TestCase
             petType: PetTypes::Cat,
             petBreed: new PetBreed("samoyed"),
             petBreedMix: "",
+            isDangerous: false
         );
 
         // ACT
@@ -112,6 +115,7 @@ class PetRepositoryTest extends TestCase
             petType: PetTypes::Dog,
             petBreed: new PetBreed("samoyed"),
             petBreedMix: "",
+            isDangerous: false
         );
 
 
@@ -127,7 +131,8 @@ class PetRepositoryTest extends TestCase
             "breed_mix" => "",
             "name" => "Kiwi",
             "gender" => PetGenders::Female->value,
-            "date_of_birth" => "2020-02-16"
+            "date_of_birth" => "2020-02-16",
+            "is_dangerous" => false
         ]);
     }
 }

@@ -7,9 +7,15 @@ use App\Registration\Write\Domain\ValueObjects\PetBreed;
 use App\Registration\Write\Domain\ValueObjects\PetTypes;
 use App\Registration\Write\Domain\ValueObjects\PetGenders;
 use App\Registration\Write\Domain\ValueObjects\PetDateOfBirth;
+use App\Registration\Write\Domain\Services\PetDangerosityServiceInterface;
 
 class PetFactory
 {
+    public function __construct(
+        private readonly PetDangerosityServiceInterface $petDangerosityService
+    ) {
+    }
+
     private function makePetType(string $value): PetTypes
     {
         $petType = PetTypes::tryFrom($value);
@@ -56,7 +62,7 @@ class PetFactory
     ): Pet {
         $petType = $this->makePetType($petTypeValue);
 
-        return new Pet(
+        $pet = new Pet(
             petName: $petNameValue,
             petGender: $this->makePetGender($petGenderValue),
             petDateOfBirth: $this->makePetDateOfBirth($petDateOfBirthValue, $petEstimatedAgeValue),
@@ -64,5 +70,11 @@ class PetFactory
             petBreed: isset($petBreedValue) === true ? new PetBreed($petBreedValue) : null,
             petBreedMix: $petBreedMixValue
         );
+
+        if ($this->petDangerosityService->isDangerous($pet) === true) {
+            $pet->flagAsDangerous();
+        }
+
+        return $pet;
     }
 }

@@ -2,15 +2,22 @@
 
 namespace App\Registration\Write\Domain\ValueObjects;
 
-class PetBreed
+use Stringable;
+
+class PetBreed implements Stringable
 {
     public function __construct(
-        public readonly string $value,
+        private readonly string $value,
     ) {
     }
 
     public function isEqualTo(PetBreed $petBreed): bool
     {
         return $this->value === $petBreed->value;
+    }
+
+    public function __toString(): string
+    {
+        return $this->value;
     }
 }

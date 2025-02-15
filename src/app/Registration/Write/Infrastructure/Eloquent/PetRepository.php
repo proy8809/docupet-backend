@@ -11,14 +11,9 @@ use App\Shared\Eloquent\PetBreed as PetBreedEloquent;
 use App\Registration\Write\Domain\ValueObjects\PetBreed;
 use App\Registration\Write\Domain\ValueObjects\PetTypes;
 use App\Registration\Write\Domain\PetRepositoryInterface;
-use App\Registration\Write\Domain\Services\PetDangerosityServiceInterface;
 
 class PetRepository implements PetRepositoryInterface
 {
-    public function __construct(
-        private readonly PetDangerosityServiceInterface $petDangerosityService
-    ) {
-    }
 
     private function getPetTypeEloquent(PetTypes $petType): PetTypeEloquent
     {
@@ -33,7 +28,7 @@ class PetRepository implements PetRepositoryInterface
 
     private function getPetBreedEloquent(PetBreed $petBreed): PetBreedEloquent
     {
-        $petBreedEloquent = PetBreedEloquent::query()->where("key", $petBreed->value)->first();
+        $petBreedEloquent = PetBreedEloquent::query()->where("key", (string) $petBreed)->first();
 
         if (isset($petBreedEloquent) === false) {
             throw new ResourceNotFoundException("api.exceptions.pet_breed_not_found");
@@ -62,7 +57,7 @@ class PetRepository implements PetRepositoryInterface
             "name" => $pet->getPetName(),
             "gender" => $pet->getPetGender()->value,
             "date_of_birth" => (string) $pet->getPetDateOfBirth(),
-            "is_dangerous" => $this->petDangerosityService->isDangerous($pet)
+            "is_dangerous" => $pet->isDangerous()
         ]);
 
         $petEloquent->save();
